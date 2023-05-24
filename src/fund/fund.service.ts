@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  PrismaClient,
-  Fund,
-  FundCreateArgs,
-  FundUpdateInput,
-} from '@prisma/client';
+import { PrismaClient, Fund } from '@prisma/client';
 
 @Injectable()
 export class FundService {
@@ -27,14 +22,14 @@ export class FundService {
     });
   }
 
-  async create(data: FundCreateInput): Promise<Fund> {
+  async create(data: Fund): Promise<Fund> {
     return this.prisma.fund.create({
       data,
       include: { aliases: true, manager: true, investments: true },
     });
   }
 
-  async update(id: number, data: FundUpdateInput): Promise<Fund> {
+  async update(id: number, data: Fund): Promise<Fund> {
     return this.prisma.fund.update({
       where: { id },
       data,

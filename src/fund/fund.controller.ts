@@ -8,14 +8,14 @@ import {
   Delete,
 } from '@nestjs/common';
 import { FundService } from './fund.service';
-import { Prisma } from '@prisma/client';
+import { Fund } from '@prisma/client';
 
 @Controller('fund')
 export class FundController {
   constructor(private readonly fundService: FundService) {}
 
   @Post()
-  create(@Body() createFundInput: Prisma.FundCreateInput) {
+  create(@Body() createFundInput: Fund) {
     return this.fundService.create(createFundInput);
   }
 
@@ -30,10 +30,7 @@ export class FundController {
   }
 
   @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateFundInput: Prisma.FundUpdateInput,
-  ) {
+  update(@Param('id') id: string, @Body() updateFundInput: Fund) {
     return this.fundService.update(+id, updateFundInput);
   }
 
