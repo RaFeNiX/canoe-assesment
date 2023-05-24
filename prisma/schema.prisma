@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Fund {
+  id          Int       @id @default(autoincrement())
+  name        String
+  startYear   Int
+  manager     Manager   @relation(fields: [managerId], references: [id])
+  managerId   Int
+  aliases     Alias[]
+  investments Investment[]
+}
+
+model Manager {
+  id    Int    @id @default(autoincrement())
+  name  String
+  funds Fund[]
+}
+
+model Alias {
+  id     Int    @id @default(autoincrement())
+  name   String
+  fund   Fund   @relation(fields: [fundId], references: [id])
+  fundId Int
+}
+
+model Company {
+  id          Int    @id @default(autoincrement())
+  name        String
+  investments Investment[]
+}
+
+model Investment {
+  id        Int      @id @default(autoincrement())
+  companyId Int
+  fundId    Int
+  company   Company @relation(fields: [companyId], references: [id])
+  fund      Fund    @relation(fields: [fundId], references: [id])
+}
